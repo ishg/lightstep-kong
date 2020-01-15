@@ -1,3 +1,5 @@
+# LightStep Kong POC
+
 ## Prerequisites
 
 You need to have a LightStep Satellite running and accessible to report data to.
