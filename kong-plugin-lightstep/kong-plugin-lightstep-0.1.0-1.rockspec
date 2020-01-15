@@ -2,13 +2,13 @@ package = "kong-plugin-lightstep"
 version = "0.1.0-1"
 
 source = {
-  url = "*";
+  url = "https://github.com/ishg/lightstep-kong";
   dir = "kong-plugin-lightstep-0.1.0";
 }
 
 description = {
   summary = "This plugin allows Kong to propagate LightStep headers and report to a LightStep Satellite";
-  homepage = "*";
+  homepage = "https://github.com/ishg/lightstep-kong";
   license = "Apache 2.0";
 }
 
