@@ -58,7 +58,7 @@ I tried out with Dockerized Kong but could not get it to point at the running Li
 
 Here is an example of how to run in Declaritive mode:
 
-1. Setup working directory
+#### 1. Setup working directory
 
 ```bash
 $ mkdir {{/path/to/kong/working/directory}}
@@ -67,7 +67,7 @@ $ kong config init
 $ touch kong.conf
 ```
 
-2. Populate `kong.yml` file. Reference `example-kong.yml`
+#### 2. Populate `kong.yml` file. Reference `example-kong.yml`
 
 If using developer satellite:
 
@@ -82,7 +82,7 @@ collector_port: 5182
 access_token: <LIGHTSTEP_ACCESS_TOKEN>
 ```
 
-3. Populate `kong.conf` file. Reference `example-kong.conf`
+#### 3. Populate `kong.conf` file. Reference `example-kong.conf`
 
 ```conf
 prefix = {{/path/to/kong/working/directory}}
@@ -94,7 +94,7 @@ db_cache_ttl = 0
 lua_package_path = {{/path/to/kong-plugin-lightstep}}/?.lua
 ```
 
-4. Start kong
+#### 4. Start kong
 
 ```bash
 cd {{/path/to/kong-plugin-lightstep}}
@@ -103,7 +103,7 @@ kong start -c {{/path/to/kong/working/directory}}/kong.conf
 
 Kong's Admin API is exposed on port 8000. Visit `localhost:8001` to see that the LightStep and key-auth plugins have been enabled
 
-5. Test the example route
+#### 5. Test the example route
 
 Kong's Proxy is exposed on port 8001.
 
@@ -113,7 +113,7 @@ $ curl -X GET http://localhost:8000/mock/request \
   -H 'apikey: test-key'
 ```
 
-6. Stop Kong
+#### 6. Stop Kong
 
 ```bash
 $ kong stop -p {{/path/to/kong/working/directory}}
