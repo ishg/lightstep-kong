@@ -262,9 +262,6 @@ function OpenTracingHandler:log(conf)
   end
   if conf.include_credential and ctx.authenticated_credential then
     request_span:set_tag("kong.credential", ctx.authenticated_credential.id)
-    if ctx.authenticated_credential.apikey then
-      request_span:set_tag("kong.credential.apikey", ctx.authenticated_credential.apikey)
-    end
   end
   request_span:set_tag("kong.node.id", kong.node.get_id())
   -- TODO: should we add these tags to the request span and/or the balancer spans?

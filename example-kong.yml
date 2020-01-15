@@ -1,0 +1,56 @@
+# ------------------------------------------------------------------------------
+# This is an example file to get you started with using
+# declarative configuration in Kong.
+# ------------------------------------------------------------------------------
+
+# Metadata fields start with an underscore (_)
+# Fields that do not start with an underscore represent Kong entities and attributes
+
+# _format_version is mandatory,
+# it specifies the minimum version of Kong that supports the format
+
+_format_version: "1.1"
+
+# Each Kong entity (core entity or custom entity introduced by a plugin)
+# can be listed in the top-level as an array of objects:
+
+# When an entity has multiple foreign-key relationships
+# (e.g. a plugin matching on both consumer and service)
+# it must be specified as a top-level entity, and not through
+# nesting.
+
+plugins:
+  - name: key-auth
+
+services:
+  - name: mock-service
+    consumer: brucewayne
+    url: http://mockbin.org
+    # Entities that have a foreign-key relationship can be nested:
+    plugins:
+      - name: lightstep
+        service: mock-service
+        config:
+          collector_host: localhost # LightStep Satellite Host
+          collector_port: 8360 # LightStep Satellite Port (8360 for Developer Satellite)  
+          collector_plaintext: true
+          access_token: developer # LightStep Access Token ('developer' for Developer Satellite)
+          component_name: lightstep-kong
+          sample_ratio: 1
+          include_credential: true
+
+routes:
+  - name: example-route
+    # Relationships can also be specified between top-level entities,
+    # either by name or by id
+    service: mock-service
+    hosts: ["mockbin.org"]
+    paths:
+      - /mock
+
+consumers:
+  - username: brucewayne
+    # Custom entities from plugin can also be specified
+    # If they specify a foreign-key relationshp, they can also be nested
+    keyauth_credentials:
+      - key: test-key
