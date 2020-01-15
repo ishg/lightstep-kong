@@ -12,6 +12,8 @@ Public Satellites are not currently supported
 
 ### Local Satellite
 
+Start a loccal satellite to have access to the full LightStep feature set
+
 ```yaml
 # docker-compose.yml
 version: "2"
