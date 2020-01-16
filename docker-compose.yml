@@ -77,7 +77,7 @@ services:
       KONG_PG_USER: kong
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_LUA_PACKAGE_PATH: /<PATH_TO_PLUGIN_DIRECTORY>/kong-plugin-lightstep/?.lua;;
+      KONG_LUA_PACKAGE_PATH: /plugins/kong-plugin-lightstep/?.lua;;
       KONG_LOG_LEVEL: debug
       KONG_PLUGINS: bundled,lightstep
     networks:
@@ -94,7 +94,7 @@ services:
       retries: 10
     restart: on-failure
     volumes:
-      - ./kong-plugin-lightstep:/<PATH_TO_PLUGIN_DIRECTORY>/kong-plugin-lightstep
+      - ./kong-plugin-lightstep:/plugins/kong-plugin-lightstep
 
   db:
     image: postgres:9.6

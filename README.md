@@ -9,7 +9,6 @@
 #### 1. Update the following template configs in `docker-compose.yml` with your values
 
 - `<LIGHTSTEP_SATELLITE_KEY>`
-- `<PATH_TO_PLUGIN_DIRECTORY>`
 
 #### 2. Start all the services
 
