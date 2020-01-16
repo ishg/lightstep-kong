@@ -61,6 +61,12 @@ curl -X GET http://localhost:8000/mock/request -H 'Host: mockbin.org'
 
 Go to `http://app.lightstep.com/<YOUR_PROJECT>/explorer` to see the traces.
 
+#### 7. Cleanup
+
+```bash
+docker-compose down
+```
+
 # Kong Declarative Config Example (Mac)
 
 ### Developer Satellite
