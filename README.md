@@ -26,12 +26,12 @@ The compose file starts up a Postgres container, intiatlizes it with the Kong mi
 
 ```bash
 curl -X POST \
--- url "localhost:8001/plugins" \
---data 'name=lightstep' \
---data 'config.access_token=<YOUR_LIGHTSTEP_ACCESS_TOKEN>' \
---data 'config.collector_plaintext=true' \
---data 'config.collector_host=satellite' \
---data 'config.collector_port=8182'
+  --url "localhost:8001/plugins" \
+  --data 'name=lightstep' \
+  --data 'config.access_token=<YOUR_LIGHTSTEP_ACCESS_TOKEN>' \
+  --data 'config.collector_plaintext=true' \
+  --data 'config.collector_host=satellite' \
+  --data 'config.collector_port=8182'
 ```
 
 #### 4. Add a Mock Service
