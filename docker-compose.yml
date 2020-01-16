@@ -2,7 +2,7 @@ version: "2.1"
 services:
   satellite:
     container_name: satellite
-    image: lightstep/collector:latest
+    image: lightstep/collector:2019-10-25_22-47-11Z
     environment:
       - COLLECTOR_SATELLITE_KEY=<LIGHTSTEP_SATELLITE_KEY>
       - COLLECTOR_ADMIN_PLAIN_PORT=8180
@@ -23,7 +23,7 @@ services:
       kong_example:
 
   kong-migrations:
-    image: kong:latest
+    image: kong:1.4.3-alpine
     command: kong migrations bootstrap
     depends_on:
       db:
@@ -39,7 +39,7 @@ services:
     restart: on-failure
 
   kong-migrations-up:
-    image: kong:latest
+    image: kong:1.4.3-alpine
     command: kong migrations up && kong migrations finish
     depends_on:
       db:
