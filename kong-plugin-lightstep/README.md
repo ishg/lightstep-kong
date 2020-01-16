@@ -4,7 +4,7 @@
 
 ```bash
 docker run \
--e COLLECTOR_SATELLITE_KEY=<SATELLITE_KEY> \
+-e COLLECTOR_SATELLITE_KEY=<LIGHTSTEP_SATELLITE_KEY> \
 -e COLLECTOR_DIGNOSTIC_PORT=8000 -p 5000:8000 \
 -e COLLECTOR_HTTP_PLAIN_PORT=8182 -p 5182:8182 \
 lightstep/collector:latest
@@ -12,9 +12,12 @@ lightstep/collector:latest
 
 ## Enable the Plugin
 
-The plugin is not in the official Kong directory yet, so use the [declarative config example](https://github.com/ishg/lightstep-kong)
+The plugin is not in the official Kong directory yet, refer to the [Examples](https://github.com/ishg/lightstep-kong) to allow Kong to access the plugin, then:
+
+1. Declarative mode
 
 ```yaml
+#kong.yml
 plugins:
   - name: lightstep
     config:
@@ -25,6 +28,18 @@ plugins:
       component_name: lightstep-kong
       sample_ratio: 1
       include_credential: true
+```
+
+2. Database mode
+
+```bash
+curl -X POST \
+-- url "localhost:8001/plugins" \
+--data 'name=lightstep' \
+--data 'config.access_token=<YOUR_LIGHTSTEP_ACCESS_TOKEN>' \
+--data 'config.collector_plaintext=true' \
+--data 'config.collector_host=<LIGHTSTEP_SATELLITE_HOST>' \
+--data 'config.collector_port=<LIGHTSTEP_SATELLITE_HTTP_PLAIN_PORT>'
 ```
 
 # Implementation
