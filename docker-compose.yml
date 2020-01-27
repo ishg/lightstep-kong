@@ -66,6 +66,8 @@ services:
       satellite:
         condition: service_started
     environment:
+      # KONG_LUA_SSL_VERIFY_DEPTH: 2
+      # KONG_LUA_SSL_TRUSTED_CERTIFICATE: /path/to/cert/cacert.pem
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: "0.0.0.0:8001"

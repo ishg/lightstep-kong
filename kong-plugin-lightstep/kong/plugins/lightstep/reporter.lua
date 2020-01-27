@@ -15,6 +15,7 @@ local lightstep_reporter_mt = {
 local function new_lightstep_reporter(config)
   local collector_host = config.collector_host
   local collector_port = config.collector_port
+  local collector_plaintext = config.collector_plaintext
   local component_name = config.component_name
   local access_token = config.access_token
   
@@ -128,16 +129,25 @@ function lightstep_reporter_methods:flush()
   }
 
   local httpc = resty_http.new()
-  -- TODO: support https based on collector_encryption parameter
+  -- TODO: support https based on collector_plaintext parameter
   local protocol = 'http'
-  local res, err = httpc:request_uri((protocol .. "://" .. self.collector_host .. ":" .. self.collector_port .. "/api/v2/reports"), {
+  if not self.collector_plaintext then
+    protocol = 'https'
+  end
+  local port = self.collector_port
+  local res, err = httpc:request_uri((protocol .. "://" .. self.collector_host .. ":" .. port .. "/api/v2/reports"), {
     method = "POST",
     headers = {
       ["content-type"] = "application/json",
-      ["accept"] = "application/json"
+      ["accept"] = "application/json",
+      ["lightstep-access-token"] = self.access_token
     },
     body = cjson.encode(report)
   })
+
+  kong.log(protocol .. "://" .. self.collector_host .. ":" .. port .. "/api/v2/reports")
+  kong.log(cjson.encode(report))
+  
 
   if not res then 
     return nil, "Failed to send request: " .. err
