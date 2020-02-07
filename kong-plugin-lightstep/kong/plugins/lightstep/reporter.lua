@@ -23,6 +23,7 @@ local function new_lightstep_reporter(config)
     component_name = component_name,
     collector_host = collector_host,
     collector_port = collector_port,
+    collector_plaintext = collector_plaintext,
     access_token = access_token,
     pending_spans = {},
     pending_spans_n = 0

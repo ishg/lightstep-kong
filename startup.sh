@@ -13,7 +13,7 @@ echo "Enabling LightStep plugin"
 curl -X POST \
   --url "localhost:8001/plugins" \
   --data 'name=lightstep' \
-  --data 'config.access_token=${LIGHTSTEP_ACCESS_TOKEN}' \
+  --data 'config.access_token='"$LIGHTSTEP_ACCESS_TOKEN"'' \
   --data 'config.collector_plaintext=true' \
   --data 'config.collector_host=satellite' \
   --data 'config.collector_port=8182' 
