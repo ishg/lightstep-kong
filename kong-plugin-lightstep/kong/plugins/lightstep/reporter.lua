@@ -29,15 +29,14 @@ local function new_lightstep_reporter(config)
   }, lightstep_reporter_mt)
 end
 
-local span_kind_map = {
-  client = "client",
-  server = "server",
-  producer = "producer",
-  consumer = "consumer",
-}
 
 local function bin_to_int(id)
-  return string.format("%.0f",tonumber(string.sub(to_hex(id),0,16),16))
+  return string.format("%.0f",tonumber(string.sub(to_hex(id), 0, 16),16))
+end
+
+
+local function reporter_id(id)
+  return string.format("%.0f",tonumber(string.sub(id:gsub("%-", ""), 0, 16), 16))
 end
 
 
@@ -83,7 +82,6 @@ function lightstep_reporter_methods:report(span)
     span_context = {
       trace_id = bin_to_int(spanCtx.trace_id),
       span_id = bin_to_int(spanCtx.span_id),
-      --  TODO: baggage
     },
     operation_name = span.name,
     references = ref and {{
@@ -104,6 +102,7 @@ function lightstep_reporter_methods:report(span)
   self.pending_spans_n = i
 end
 
+
 function lightstep_reporter_methods:flush()
   if self.pending_spans_n == 0 then
     return true
@@ -118,23 +117,32 @@ function lightstep_reporter_methods:flush()
       access_token = self.access_token
     },
     reporter = {
-      -- TODO: get the right reporter id
-      reporter_id = "1234",
+      reporter_id = reporter_id(kong.node.get_id()),
       tags = { {
           key = 'lightstep.component_name',
           stringValue = self.component_name
+        }, {
+          key = 'lightstep.tracer_platform',
+          stringValue = "lua"
+        }, {
+          key = 'lightstep.tracer_platform_version',
+          stringValue = _VERSION:sub(4)
+        }, {
+          key = 'lightstep.guid',
+          stringValue = string.format("%8.8x", reporter_id(kong.node.get_id()))
         } }
     },
     spans = pending_spans
   }
 
+
   local httpc = resty_http.new()
-  -- TODO: support https based on collector_plaintext parameter
   local protocol = 'http'
   if not self.collector_plaintext then
     protocol = 'https'
   end
   local port = self.collector_port
+  
   local res, err = httpc:request_uri((protocol .. "://" .. self.collector_host .. ":" .. port .. "/api/v2/reports"), {
     method = "POST",
     headers = {
@@ -145,10 +153,6 @@ function lightstep_reporter_methods:flush()
     body = cjson.encode(report)
   })
 
-  kong.log(protocol .. "://" .. self.collector_host .. ":" .. port .. "/api/v2/reports")
-  kong.log(cjson.encode(report))
-  
-
   if not res then 
     return nil, "Failed to send request: " .. err
   elseif res.status < 200 or res.status >= 300 then 
@@ -156,6 +160,7 @@ function lightstep_reporter_methods:flush()
   end
   return true
 end
+
 
 return {
   new = new_lightstep_reporter,

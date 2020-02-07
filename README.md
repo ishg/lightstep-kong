@@ -4,6 +4,35 @@
 
 - Docker and docker compose.
 
+# Quick(est)start
+
+#### 1. Update the following template configs in `.env` with your values
+
+- `LIGHTSTEP_SATELLITE_KEY`
+- `LIGHTSTEP_ACCESS_TOKEN`
+
+#### 2. Start all the services
+
+```bash
+$ chmod +x ./startup.sh
+$ ./startup.sh
+```
+
+#### 3. Test the mock route
+
+```bash
+curl -X GET http://localhost:8000/mock/request -H 'Host: mockbin.org'
+```
+
+Go to `http://app.lightstep.com/<YOUR_PROJECT>/explorer` to see the traces.
+
+#### 4. Cleanup
+
+```bash
+$ chmod +x ./shutdown.sh
+$ ./shutdown.sh
+```
+
 # Kong Postgres Example (Docker)
 
 #### 1. Update the following template configs in `docker-compose.yml` with your values
@@ -63,7 +92,7 @@ Go to `http://app.lightstep.com/<YOUR_PROJECT>/explorer` to see the traces.
 #### 7. Cleanup
 
 ```bash
-docker-compose down
+$ docker-compose down
 ```
 
 # Kong Declarative Config Example (Mac)
@@ -110,8 +139,8 @@ lua_package_path = {{/path/to/kong-plugin-lightstep}}/?.lua
 #### 4. Start kong
 
 ```bash
-cd {{/path/to/kong-plugin-lightstep}}
-kong start -c {{/path/to/kong/working/directory}}/kong.conf
+$ cd {{/path/to/kong-plugin-lightstep}}
+$ kong start -c {{/path/to/kong/working/directory}}/kong.conf
 ```
 
 Kong's Admin API is exposed on port 8001. Visit `localhost:8001` to see that the LightStep and key-auth plugins have been enabled
@@ -121,7 +150,7 @@ Kong's Admin API is exposed on port 8001. Visit `localhost:8001` to see that the
 Kong's Proxy is exposed on port 8000.
 
 ```bash
-$ curl -X GET http://localhost:8000/mock/request \
+curl -X GET http://localhost:8000/mock/request \
   -H 'Host: mockbin.org' \
   -H 'apikey: test-key'
 ```

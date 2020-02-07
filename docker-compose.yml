@@ -4,7 +4,7 @@ services:
     container_name: satellite
     image: lightstep/collector:2019-10-25_22-47-11Z
     environment:
-      - COLLECTOR_SATELLITE_KEY=<LIGHTSTEP_SATELLITE_KEY>
+      - COLLECTOR_SATELLITE_KEY=${LIGHTSTEP_SATELLITE_KEY}
       - COLLECTOR_ADMIN_PLAIN_PORT=8180
       - COLLECTOR_ADMIN_SECURE_PORT=8181
       - COLLECTOR_HTTP_PLAIN_PORT=8182
@@ -66,8 +66,8 @@ services:
       satellite:
         condition: service_started
     environment:
-      # KONG_LUA_SSL_VERIFY_DEPTH: 2
-      # KONG_LUA_SSL_TRUSTED_CERTIFICATE: /path/to/cert/cacert.pem
+      KONG_LUA_SSL_VERIFY_DEPTH: 2
+      KONG_LUA_SSL_TRUSTED_CERTIFICATE: /plugins/kong-plugin-lightstep/cacert.pem
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: "0.0.0.0:8001"

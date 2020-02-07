@@ -102,9 +102,9 @@ Logs are used to encode the begin and end of every kong phase.
 
 # TODOS
 
-1. Support HTTPS
-2. Implement unique reporter id
-3. Implement baggage items in span context
+1. ~Support HTTPS~
+2. ~Implement unique reporter id~
+3. ~Implement baggage items in span context~ (to test propagation)
 4. Implement b3 header propagation
 5. Test with Traces starting at upstream and downstream services
 6. Get finer time resolution

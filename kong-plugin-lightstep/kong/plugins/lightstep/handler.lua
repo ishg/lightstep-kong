@@ -21,10 +21,10 @@ local function log(premature, reporter)
 
   local ok, err = reporter:flush()
   if not ok then
-    kong.log.err("reporter flush ", err)
+    kong.log.err("LightStep reporter flush ", err)
     return
   end
-  kong.log("reporter flush", "success")
+  kong.log("LightStep reporter flush", " successful ")
 end
 
 function LightStepLogHandler:log(config)

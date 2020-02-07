@@ -45,7 +45,7 @@ local function new_extractor(warn)
 
     local baggage = {}
     for k, v in pairs(headers) do
-      local baggage_key = k:match("^ot-tracer%-(.*)$")
+      local baggage_key = k:match("^ot-baggage%-(.*)$")
       if baggage_key then
         baggage[baggage_key] = ngx.unescape_uri(v)
       end
